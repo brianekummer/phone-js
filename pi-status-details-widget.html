@@ -1,0 +1,278 @@
+<html>
+  <style>
+    .red    {color: red;}
+    .yellow {background-color: yellow;}
+		.green  {color: green;}
+  </style>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
+ 	  <script type="text/javascript" src="/storage/emulated/0/Kummer/javascript/moment.min.js" /></script>
+ 	  <script type="text/javascript" src="/storage/emulated/0/Kummer/javascript/pi-status-details-widget.js" /></script>
+
+		<script>
+		  function LoadPiFields(elementPrefix, piStatus) {
+			  document.getElementById(elementPrefix + "StatusHoursAgo").textContent = piStatus.hours_ago;
+				document.getElementById(elementPrefix + "StatusHoursAgo").setAttribute("class", piStatus.hours_ago_class);
+				document.getElementById(elementPrefix + "DiskInternal").textContent = piStatus.pi.disk_internal;
+				document.getElementById(elementPrefix + "DiskInternal").setAttribute("class", piStatus.pi.disk_internal_class);
+				document.getElementById(elementPrefix + "MemoryInternal").textContent = piStatus.pi.memory_internal;
+				document.getElementById(elementPrefix + "MemoryInternal").setAttribute("class", piStatus.pi.memory_internal_class);
+				document.getElementById(elementPrefix + "MemorySwap").textContent = piStatus.pi.memory_swap;
+				document.getElementById(elementPrefix + "MemorySwap").setAttribute("class", piStatus.pi.memory_swap_class);
+				document.getElementById(elementPrefix + "SwappingIn").textContent = piStatus.pi.swapping_in;
+				//document.getElementById(elementPrefix + "SwappingIn").setAttribute("class", piStatus.pi.swapping_in_class);
+				document.getElementById(elementPrefix + "SwappingOut").textContent = piStatus.pi.swapping_out;
+				//document.getElementById(elementPrefix + "SwappingOut").setAttribute("class", piStatus.pi.swapping_out_class;);
+				document.getElementById(elementPrefix + "LoadFiveMin").textContent = piStatus.pi.load_five_min;
+				document.getElementById(elementPrefix + "LoadFiveMin").setAttribute("class", piStatus.pi.load_five_min_class);
+				document.getElementById(elementPrefix + "LoadFifteenMin").textContent = piStatus.pi.load_fifteen_min;
+				document.getElementById(elementPrefix + "LoadFifteenMin").setAttribute("class", piStatus.pi.load_fifteen_min_class);
+				
+				document.getElementById(elementPrefix + "KodiStatus").textContent = piStatus.kodi.status;
+				document.getElementById(elementPrefix + "KodiStatus").setAttribute("class", piStatus.kodi.status_class);
+				document.getElementById(elementPrefix + "KodiVersion").textContent = piStatus.kodi.current_version;
+				document.getElementById(elementPrefix + "KodiVersion").setAttribute("class", piStatus.kodi.current_version_class);
+				
+				document.getElementById(elementPrefix + "UfwStatus").textContent = piStatus.ufw.status;
+				document.getElementById(elementPrefix + "UfwStatus").setAttribute("class", piStatus.ufw.status_class);
+				
+				if (piStatus.hasOwnProperty("nextcloud")) {
+					document.getElementById("nextCloudStatus").textContent = piStatus.nextcloud.status;
+					document.getElementById("nextCloudStatus").setAttribute("class", piStatus.nextcloud.status_class);
+					document.getElementById("nextCloudDbSizeMb").textContent = piStatus.nextcloud.db_size;
+					//document.getElementById("nextCloudDbSizeMb").setAttribute("class", piStatus.nextcloud.db_size_class);
+					document.getElementById("nextCloudVersion").textContent = piStatus.nextcloud.current_version;
+					document.getElementById("nextCloudVersion").setAttribute("class", piStatus.nextcloud.current_version_class);
+					document.getElementById("nextCloudExpiryDays").textContent = piStatus.nextcloud.ssl_cert_expiry;
+					document.getElementById("nextCloudExpiryDays").setAttribute("class", piStatus.nextcloud.ssl_cert_expiry_class);
+					document.getElementById("nextCloudLastBackup").textContent = piStatus.nextcloud.last_backup;
+					document.getElementById("nextCloudLastBackup").setAttribute("class", piStatus.nextcloud.last_backup_class);
+					document.getElementById("nextCloudNotesStatus").textContent = piStatus.nextcloud_notes.status;
+					document.getElementById("nextCloudNotesStatus").setAttribute("class", piStatus.nextcloud_notes.status_class);
+					document.getElementById("nextCloudNotesLastBackup").textContent = piStatus.nextcloud_notes.last_backup;
+					document.getElementById("nextCloudNotesLastBackup").setAttribute("class", piStatus.nextcloud_notes.last_backup_class);
+				}
+			}
+			
+			
+			function LoadRouterFields(allStatuses) {
+				document.getElementById("routerStatusHoursAgo").textContent = allStatuses.router.hours_ago;
+				document.getElementById("routerStatusHoursAgo").setAttribute("class", allStatuses.router.hours_ago_class);
+				document.getElementById("routerVersion").textContent = allStatuses.router.current_version;
+				//document.getElementById("routerVersion").setAttribute("class", allStatuses.router.current_version_class);
+				document.getElementById("routerUptime").textContent = allStatuses.router.uptime;
+				//document.getElementById("routerUptime").setAttribute("class", allStatuses.router.uptime_class);
+				document.getElementById("routerLoadFiveMin").textContent = allStatuses.router.load_five_min;
+				document.getElementById("routerLoadFiveMin").setAttribute("class", allStatuses.router.load_five_min_class);
+				document.getElementById("routerLoadFifteenMin").textContent = allStatuses.router.load_fifteen_min;
+				document.getElementById("routerLoadFifteenMin").setAttribute("class", allStatuses.router.load_fifteen_min_class);
+				document.getElementById("routerNasStorage").textContent = allStatuses.router.nas_storage_used;
+				document.getElementById("routerNasStorage").setAttribute("class", allStatuses.router.nas_storage_used_class);
+			}
+		
+		
+			function codeAddress() {
+				var pi1LatestStatus = tk.global("Pi1LatestStatus").toString();   // not sure toString is necessary
+				var pi2LatestStatus = tk.global("Pi2LatestStatus").toString();   // not sure toString is necessary
+
+				var allStatuses = JSON.parse(calculateAllPiStatuses(pi1LatestStatus, pi2LatestStatus));
+
+				LoadRouterFields(allStatuses);
+				
+				LoadPiFields("pi1", allStatuses.pi1);
+				LoadPiFields("pi2", allStatuses.pi2);
+			}
+
+			window.onload = codeAddress;
+		</script>
+	</head>
+	<body>
+		<table style='width:100%'>
+		  <col>
+		  <col>
+		  <col>
+			<col style="width: 55%">
+			<tr>
+				<td colspan="4"><b>Router</b>- <span id="routerStatusHoursAgo" ></span></td>
+			</tr>
+			<tr>
+			  <td/>
+				<td colspan="2">Version</td>
+				<td><span id="routerVersion"></span></td>
+			</tr>
+			<tr>
+			  <td/>
+				<td colspan="2">Uptime</td>
+				<td><span id="routerUptime"></span></td>
+			</tr>
+			<tr>
+			  <td/>
+				<td colspan="2">Load</td>
+				<td>5m=<span id="routerLoadFiveMin"></span>, 15m=<span id="routerLoadFifteenMin"></span></td>
+			</tr>
+			<tr>
+			  <td/>
+				<td colspan="2">NAS Storage</td>
+				<td><span id="routerNasStorage"></span></td>
+			</tr>
+		</table>
+		
+		<br/>
+		
+		<table style='width:100%'>
+		  <col>
+		  <col>
+		  <col>
+			<col style="width: 55%">
+			<tr>
+				<td colspan="4"><b>Pi #1 (BR)</b>- <span id="pi1StatusHoursAgo" ></span></td>
+			</tr>
+			<tr>
+			  <td/>
+			  <td colspan="3"><b>General</b></td>
+			</tr>
+			<tr>
+			  <td/>
+			  <td/>
+			  <td>Disk</td>
+				<td>i=<span id="pi1DiskInternal"></span></td>
+			</tr>
+			<tr>
+			  <td/>
+			  <td/>
+				<td>Memory</td>
+				<td>i=<span id="pi1MemoryInternal"></span>, s=<span id="pi1MemorySwap"></span></td>
+			</tr>
+			<tr>
+			  <td/>
+			  <td/>
+				<td>Swapping</td>
+				<td>in=<span id="pi1SwappingIn"></span>, out=<span id="pi1SwappingOut"></span></td>
+			</tr>
+			<tr>
+			  <td/>
+			  <td/>
+				<td>Load</td>
+				<td>5m=<span id="pi1LoadFiveMin"></span>, 15m=<span id="pi1LoadFifteenMin"></span></td>
+			</tr>
+			
+			<tr>
+			  <td/>
+				<td colspan="2"><b>Kodi</b></td>
+				<td><span id="pi1KodiStatus"></span></td>
+			</tr>
+			<tr>
+			  <td/>
+			  <td/>
+				<td>Version</td>
+				<td><span id="pi1KodiVersion"></span></td>
+			</tr>
+
+			<tr>
+			  <td/>
+				<td colspan="2"><b>Firewall</b></td>
+				<td><span id="pi1UfwStatus"></span></td>
+			</tr>
+
+			<tr>
+			  <td/>
+				<td colspan="2"><b>NextCloud</b></td>
+				<td><span id="nextCloudStatus"></span></td>
+			</tr>
+			<tr>
+			  <td/>
+			  <td/>
+				<td>Version</td>
+				<td><span id="nextCloudVersion"></span></td>
+			</tr>
+			<tr>
+			  <td/>
+			  <td/>
+				<td>Database</td>
+				<td><span id="nextCloudDbSizeMb"></span></td>
+			</tr>
+			<tr>
+			  <td/>
+			  <td/>
+				<td>SSL Certificate</td>
+				<td><span id="nextCloudExpiryDays"></span></td>
+			</tr>
+			<tr>
+			  <td/>
+			  <td/>
+				<td>Last Backup</td>
+				<td><span id="nextCloudLastBackup"></span></td>
+			</tr>
+			<tr>
+			  <td/>
+				<td colspan="2"><b>NextCloud Notes</b></td>
+				<td><span id="nextCloudNotesStatus"></span></td>
+			</tr>
+			<tr>
+			  <td/>
+			  <td/>
+				<td>Last Backup</td>
+				<td><span id="nextCloudNotesLastBackup"></span></td>
+			</tr>
+		</table>
+
+		<br/>
+		
+		<table style='width:100%'>
+		  <col>
+		  <col>
+		  <col>
+			<col style="width: 55%">
+			<tr>
+				<td colspan="4"><b>Pi #2 (LR)</b>- <span id="pi2StatusHoursAgo" ></span></td>
+			</tr>
+			<tr>
+			  <td/>
+			  <td colspan="3"><b>General</b></td>
+			</tr>
+			<tr>
+			  <td/>
+			  <td/>
+			  <td>Disk</td>
+				<td>i=<span id="pi2DiskInternal"></span></td>
+			</tr>
+			<tr>
+			  <td/>
+			  <td/>
+				<td>Memory</td>
+				<td>i=<span id="pi2MemoryInternal"></span>, s=<span id="pi2MemorySwap"></span></td>
+			</tr>
+			<tr>
+			  <td/>
+			  <td/>
+				<td>Swapping</td>
+				<td>in=<span id="pi2SwappingIn"></span>, out=<span id="pi2SwappingOut"></span></td>
+			</tr>
+			<tr>
+			  <td/>
+			  <td/>
+				<td>Load</td>
+				<td>5m=<span id="pi2LoadFiveMin"></span>, 15m=<span id="pi2LoadFifteenMin"></span></td>
+			</tr>
+			
+			<tr>
+			  <td/>
+				<td colspan="2"><b>Kodi</b></td>
+				<td><span id="pi2KodiStatus"></span></td>
+			</tr>
+			<tr>
+			  <td/>
+			  <td/>
+				<td>Version</td>
+				<td><span id="pi2KodiVersion"></span></td>
+			</tr>
+
+			<tr>
+			  <td/>
+				<td colspan="2"><b>Firewall</b></td>
+				<td><span id="pi2UfwStatus"></span></td>
+			</tr>
+		</table>
+	</body>
+</html>

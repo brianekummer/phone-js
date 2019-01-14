@@ -1,0 +1,92 @@
+<html>
+  <style>
+    .red    {color: red;}
+    .yellow {background-color: yellow;}
+		.green  {color: green;}
+    .white  {color: white}
+		.center {text-align: center;}
+		table   {border-collapse:collapse;}
+    tr.border_bottom {border-bottom: 1px solid #000;}
+  </style>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
+		<script type="text/javascript" src="/storage/emulated/0/Kummer/javascript/moment.min.js" /></script>
+		<script type="text/javascript" src="/storage/emulated/0/Kummer/javascript/tracfone-details-widget.js" /></script>
+
+		<!--<script type="text/javascript" src="moment.min.js" /></script>-->
+		<!--<script type="text/javascript" src="tracfone-details-widget.js" /></script>-->
+
+		<script>
+			function codeAddress() {
+				var tracfoneBalances = tk.global("TracfoneLatestBalances").toString();   // not sure toString is necessary
+        //var tracfoneBalances = "tracfone_balances_all|201901121415|22|Brian|75|456|789|Jodi|1|2|3|Kaley|3|4|5|Home|200|500|500|Pop|123|45|678|32|";
+				
+				var results = JSON.parse(ParseBalances(tracfoneBalances));
+				
+				document.getElementById("statusTime").textContent = results.statusTime;
+				document.getElementById("statusTime").setAttribute("class", results.statusTimeClass);
+				
+				var person = null;
+				for (var i = 0; i < results.people.length; i++) {
+				  person = results.people[i];
+					document.getElementById("name" + i).textContent = person.name;
+					document.getElementById("minutes" + i).textContent = person.minutes;
+					document.getElementById("minutes" + i).setAttribute("class", person.minutesClass);
+					document.getElementById("texts" + i).textContent = person.texts;
+					document.getElementById("texts" + i).setAttribute("class", person.textsClass);
+					document.getElementById("data" + i).textContent = person.data;
+					document.getElementById("data" + i).setAttribute("class", person.dataClass);
+				};
+			}
+
+			window.onload = codeAddress;
+		</script>
+	</head>
+	<body>
+		<table style="width:100%">
+			<tr class="border_bottom">
+				<td><b><span id="statusTime"></span></b></td>
+				<td class="center"><b>Min</b></td>
+				<td class="center"><b>Texts</b></td>
+				<td class="center"><b>MB</b></td>
+			</tr>
+			<tr>
+				<td><span id="name0"</span></td>
+				<td class="center"><span id="minutes0"></span></td>
+				<td class="center"><span id="texts0"></span></td>
+				<td class="center"><span id="data0"></span></td>
+			</tr>
+			<tr>
+				<td><span id="name1"</span></td>
+				<td class="center"><span id="minutes1"></span></td>
+				<td class="center"><span id="texts1"></span></td>
+				<td class="center"><span id="data1"></span></td>
+			</tr>
+			<tr class="border_bottom">
+				<td><span id="name2"</span></td>
+				<td class="center"><span id="minutes2"></span></td>
+				<td class="center"><span id="texts2"></span></td>
+				<td class="center"><span id="data2"></span></td>
+			</tr>
+			<tr class="border_bottom">
+				<td><span id="name3"</span></td>
+				<td class="center"><span id="minutes3"></span></td>
+				<td class="center"><span id="texts3"></span></td>
+				<td class="center"><span id="data3"></span></td>
+			</tr>
+			<tr class="border_bottom">
+				<td><span id="name4"</span></td>
+				<td class="center"><span id="minutes4"></span></td>
+				<td class="center"><span id="texts4"></span></td>
+				<td class="center"><span id="data4"></span></td>
+			</tr>
+			<tr>
+				<td><span id="name5"</span></td>
+				<td class="center"><span id="minutes5"></span></td>
+				<td class="center"><span id="texts5"></span></td>
+				<td class="center"><span id="data5"></span></td>
+			</tr>
+		</table>
+	</body>
+</html>

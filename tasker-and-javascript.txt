@@ -1,0 +1,71 @@
+Javascript Standards - From TeleTracking docs:
+
+1. Use proper Casings (Camel/Pascal)
+     Type       Casing               Rules                       Example
+     Constant	  CAPS                 All Caps with underlines    THIS_EXAMPLE_WORKS
+     Object     Pascal                                           JobModel
+     Method     Camel	                                           getJob()
+     Properties Camel                                            isTrusted
+     Folders    Lowercase w/hyphens                              placement-requests
+     File names Lowercase w/hyphens                              job-controller.js
+2. Use proper naming conventions
+     a. Do not use Hungarian notation (C++ style) for naming identifiers ex: m_value, bStillGoing, iCar etc
+     b.	Do not use numbers for identifiers
+     c. Avoid ALL CAPS and all lowercase names
+     d. Do not use  reserved words as names.
+     e. Do not use abbreviations or contractions as parts of identifier names. Ex: onClick vs. onClk
+     f. Consider prefixing Boolean properties with is, has, can, allows, or supports.
+     g. Name types using nouns, noun phrases or adjective phrases (Alarms, EmployeeManager, ServiceController, etc)
+     h. Name methods using verb-object pair : Example showDialog(), performTask()
+     i. Use naming convention for const.  Do not use const keyword (not supported by IE)
+
+
+
+
+Tasker Variables
+1. all lower case with underscores
+
+
+Notes
+Issues with async code, so just ALWAYS do this
+  - Always (in Tasker) uncheck "Auto Exit" and in JS explicitly use "exit();" when want to be done
+  - Use setLocal() and setGlobal() to set variables
+
+
+
+My javascript files
+1. Structure
+    a. Intro comments
+    b. Constants
+         - Those that I might have to change on a somewhat routine basis (start of new hockey season, etc).
+         - Other constants
+       These include dependencies in Tasker, like profile names, etc
+    c. Input variables from Tasker
+    d. Output variables to Tasker
+    b. Debugging, which includes setting test variables, is why it's after input/output variables
+       var onAndroid = (global('SDK') > 0);
+       if (!onAndroid) {
+         alert('NOT running on Android');
+         var ...
+       }
+
+
+DONE
+----
+fitbit-widget
+parse-grades
+tracfone-details-widget
+hockey-widget
+get-formatted-date
+build-traffic-notification
+
+
+TO DO
+-------
+
+
+* penguins_widget
+     - rename file
+     - rename variables
+     - finish changing to async fetch
+     - ?????
